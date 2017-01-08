@@ -1,61 +1,53 @@
 [gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
-[ext_resource path="res://ball1.wav" type="Sample" id=2]
-[ext_resource path="res://ball2.wav" type="Sample" id=3]
-[ext_resource path="res://ball3.wav" type="Sample" id=4]
-[ext_resource path="res://ball4.wav" type="Sample" id=5]
+[ext_resource path="res://ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ball1.wav" type="Sample" id=3]
+[ext_resource path="res://ball2.wav" type="Sample" id=4]
+[ext_resource path="res://ball3.wav" type="Sample" id=5]
+[ext_resource path="res://ball4.wav" type="Sample" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 483, 33 )
 
-[sub_resource type="RectangleShape2D" id=2]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 299 )
-
 [sub_resource type="SampleLibrary" id=3]
 
-samples/ball1 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 2 ) }
-samples/ball2 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
-samples/ball3 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
-samples/ball4 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 5 ) }
+samples/ball1 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
+samples/ball2 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
+samples/ball3 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 5 ) }
+samples/ball4 = { "db":0.0, "pitch":1.0, "sample":ExtResource( 6 ) }
 
 [node name="root" type="Node2D"]
 
 script/script = ExtResource( 1 )
+w = 20
+h = 10
+ball_size = 48
+Ball = ExtResource( 2 )
 
 [node name="floor" type="StaticBody2D" parent="."]
 
-transform/pos = Vector2( 310, 149 )
+transform/pos = Vector2( 318, 378 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 1, 0 )
 shapes/0/trigger = false
-shapes/1/shape = SubResource( 2 )
-shapes/1/transform = Matrix32( 1, 0, 0, 1, -325, 128 )
-shapes/1/trigger = false
 collision/layers = 1
 collision/mask = 1
 constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
+__meta__ = { "_edit_group_":true }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floor"]
 
+transform/pos = Vector2( 1, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
-
-[node name="CollisionShape2D 2" type="CollisionShape2D" parent="floor"]
-
-transform/pos = Vector2( -325, 128 )
-shape = SubResource( 2 )
-trigger = false
-_update_shape_index = 1
 
 [node name="fx" type="Particles2D" parent="."]
 
@@ -89,7 +81,7 @@ color/color = Color( 1, 0, 0, 1 )
 [node name="SamplePlayer2D" type="SamplePlayer2D" parent="."]
 
 transform/pos = Vector2( 38, 36 )
-params/volume_db = -80.0
+params/volume_db = 0.0
 params/pitch_scale = 1.0
 params/attenuation/min_distance = 1.0
 params/attenuation/max_distance = 2048.0
