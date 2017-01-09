@@ -22,13 +22,14 @@ class StageClickAll:
 		root.w = 20
 		root.h = 10
 		root.ball_size = 48
+		root.calc_shift()
 		root.fill_area(root.w, root.h)
 		
 	func process(root):
 		root.remove_checked()
 		
 		if root.area.size() == 0:
-			root.next_stage()
+			root.get_node("Timer").start()
 
 
 class StageClickAll3x3:
@@ -39,13 +40,14 @@ class StageClickAll3x3:
 		root.w = 3
 		root.h = 3
 		root.ball_size = 96
+		root.calc_shift()
 		root.fill_area(root.w, root.h)
 
 	func process(root):
 		root.remove_checked()
 		
 		if root.area.size() == 0:
-			root.next_stage()
+			root.get_node("Timer").start()
 
 
 class StageClickAll7x15:
@@ -56,13 +58,14 @@ class StageClickAll7x15:
 		root.w = 15
 		root.h = 7
 		root.ball_size = 64
+		root.calc_shift()
 		root.fill_area(root.w, root.h)
 
 	func process(root):
 		root.remove_checked()
 		
 		if root.area.size() == 0:
-			root.next_stage()
+			root.get_node("Timer").start()
 
 
 class StageKeepGreen:
@@ -73,6 +76,7 @@ class StageKeepGreen:
 		root.w = 20
 		root.h = 10
 		root.ball_size = 48
+		root.calc_shift()
 		root.fill_area(root.w, root.h)
 
 	func process(root):
@@ -175,6 +179,36 @@ func remove_checked():
 		ball.queue_free()
 
 
+func remove_all():
+	for ball in area:
+		# fx
+		var fx = get_node("fx").duplicate(1)
+		fx.set_hidden(0)
+		fx.set_as_toplevel(1)
+		fx.set_pos(ball.get_pos())
+		fx.set_emitting(true)
+		
+		# color
+		var colors = [Color(1, 0, 0), Color(0, 1, 0), Color(0, 0, 1)]
+		fx.set_color(colors[ball.color])
+		
+		# velocity
+		var velocities = [60, 100, 80]
+		fx.set_param(Particles2D.PARAM_LINEAR_VELOCITY, velocities[ball.color])
+		
+		add_child(fx)
+		
+		# sound
+		if get_node("mute").is_pressed():
+			get_node("SamplePlayer2D").play("ball" + str(ball.color+1))
+		
+	for ball in area:
+		ball.queue_free()
+		
+	area.clear()
+
+
+
 func create_map(w, h):
 	var map = []
 	
@@ -216,6 +250,9 @@ func check_balls():
 	if x >= w or y >= h:
 		return
 		
+	if x < 0 or y < 0:
+		return
+		
 	var ball = map[x][y]
 
 	if ball:
@@ -251,16 +288,23 @@ func check_ball(pipe, color, map):
 			ball.passed = 1
 
 
+func next_stage():
+	#stage = StageClickAll.new(self)
+	stage = StageClickAll7x15.new(self)
+
+
 func _ready():
 	set_process(1)
 	set_process_input(1)
 	stage = StageClickAll3x3.new(self)
 
 
-func next_stage():
-	#stage = StageClickAll.new(self)
-	stage = StageClickAll7x15.new(self)
-
+func calc_shift():
+	var size = get_tree().get_root().get_visible_rect().size
+	var cx = (size.width - w * ball_size) / 2 + ball_size / 2
+	var cy = (size.height - h * ball_size)
+	shift = Vector2(cx, cy)
+	
 
 func _process(delta):
 	accum += delta
@@ -273,3 +317,29 @@ func _process(delta):
 func _input(event):
 	if event.is_action("click") and event.is_pressed():
 		stage.process(self)
+
+
+func _on_Timer_timeout():
+	remove_all()
+	stage._init(self)
+	pass # replace with function body
+
+
+func _on_stage3x3_pressed():
+	get_node("Timer").stop()
+	remove_all()
+	stage = StageClickAll3x3.new(self)
+	pass # replace with function body
+
+
+func _on_stage7x15_pressed():
+	get_node("Timer").stop()
+	remove_all()
+	stage = StageClickAll7x15.new(self)
+	pass # replace with function body
+
+
+func _on_stage10x20_pressed():
+	get_node("Timer").stop()
+	remove_all()
+	stage = StageClickAll.new(self)

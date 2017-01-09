@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=17 format=1]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://ball.tscn" type="PackedScene" id=2]
@@ -8,6 +8,12 @@
 [ext_resource path="res://ball3.wav" type="Sample" id=6]
 [ext_resource path="res://ball4.wav" type="Sample" id=7]
 [ext_resource path="res://wrong.wav" type="Sample" id=8]
+[ext_resource path="res://3.png" type="Texture" id=9]
+[ext_resource path="res://3-hover.png" type="Texture" id=10]
+[ext_resource path="res://1.png" type="Texture" id=11]
+[ext_resource path="res://1-hover.png" type="Texture" id=12]
+[ext_resource path="res://2.png" type="Texture" id=13]
+[ext_resource path="res://2-hover.png" type="Texture" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -43,6 +49,7 @@ margin/right = 1024.0
 margin/bottom = 599.0
 texture = ExtResource( 3 )
 expand = true
+stretch_mode = 0
 
 [node name="floor" type="StaticBody2D" parent="."]
 
@@ -122,5 +129,81 @@ shortcut = null
 text = "Sound"
 flat = false
 align = 0
+
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.1
+one_shot = true
+autostart = false
+
+[node name="Container" type="Container" parent="."]
+
+visibility/opacity = 0.42
+rect/scale = Vector2( 0.3, 0.3 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 167.0
+margin/top = 0.0
+margin/right = 698.0
+margin/bottom = 127.0
+
+[node name="stage-3x3" type="TextureButton" parent="Container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 0.0
+margin/right = 140.0
+margin/bottom = 124.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 9 )
+textures/hover = ExtResource( 10 )
+
+[node name="stage-7x15" type="TextureButton" parent="Container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 195.0
+margin/top = 0.0
+margin/right = 298.0
+margin/bottom = 124.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+textures/hover = ExtResource( 12 )
+
+[node name="stage-10x20" type="TextureButton" parent="Container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 368.0
+margin/top = 0.0
+margin/right = 490.0
+margin/bottom = 124.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 13 )
+textures/hover = ExtResource( 14 )
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[connection signal="pressed" from="Container/stage-3x3" to="." method="_on_stage3x3_pressed"]
+
+[connection signal="pressed" from="Container/stage-7x15" to="." method="_on_stage7x15_pressed"]
+
+[connection signal="pressed" from="Container/stage-10x20" to="." method="_on_stage10x20_pressed"]
 
 
