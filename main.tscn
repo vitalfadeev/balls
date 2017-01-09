@@ -119,10 +119,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 32.0
-margin/top = 0.0
-margin/right = 147.0
-margin/bottom = 22.0
+margin/left = 33.0
+margin/top = 8.0
+margin/right = 148.0
+margin/bottom = 30.0
 toggle_mode = true
 enabled_focus_mode = 0
 shortcut = null
@@ -133,13 +133,12 @@ align = 0
 [node name="Timer" type="Timer" parent="."]
 
 process_mode = 1
-wait_time = 1.1
+wait_time = 1.0
 one_shot = true
 autostart = false
 
 [node name="Container" type="Container" parent="."]
 
-visibility/opacity = 0.42
 rect/scale = Vector2( 0.3, 0.3 )
 focus/ignore_mouse = false
 focus/stop_mouse = true

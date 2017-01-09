@@ -144,7 +144,7 @@ func fill_area(w, h):
 	thefloor.set_pos(Vector2(w * ball_size / 2, h * ball_size) + shift)
 	
 	var floor_shape = thefloor.get_node("CollisionShape2D").get_shape()
-	floor_shape.set_extents(Vector2(w * ball_size, ball_size/2))
+	floor_shape.set_extents(Vector2(w * ball_size, ball_size/2-1))
 
 func remove_checked():
 	var toremove = []
