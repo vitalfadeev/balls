@@ -38,6 +38,24 @@ class StageClickAll3x3:
 		root = proot
 		root.w = 3
 		root.h = 3
+		root.ball_size = 96
+		root.fill_area(root.w, root.h)
+
+	func process(root):
+		root.remove_checked()
+		
+		if root.area.size() == 0:
+			root.next_stage()
+
+
+class StageClickAll7x15:
+	var root = null
+	
+	func _init(proot):
+		root = proot
+		root.w = 15
+		root.h = 7
+		root.ball_size = 64
 		root.fill_area(root.w, root.h)
 
 	func process(root):
@@ -129,20 +147,29 @@ func remove_checked():
 	
 	for ball in area:
 		if ball.selected:
+			# fx
 			var fx = get_node("fx").duplicate(1)
 			fx.set_hidden(0)
 			fx.set_as_toplevel(1)
 			fx.set_pos(ball.get_pos())
 			fx.set_emitting(true)
+			
+			# color
 			var colors = [Color(1, 0, 0), Color(0, 1, 0), Color(0, 0, 1)]
 			fx.set_color(colors[ball.color])
+			
+			# velocity
+			var velocities = [60, 100, 80]
+			fx.set_param(Particles2D.PARAM_LINEAR_VELOCITY, velocities[ball.color])
+			
 			add_child(fx)
 			
+			# sound
 			if get_node("mute").is_pressed():
 				get_node("SamplePlayer2D").play("ball" + str(ball.color+1))
 			
 			toremove.append(ball)
-			
+	
 	for ball in toremove:
 		area.erase(ball)
 		ball.queue_free()
@@ -231,7 +258,8 @@ func _ready():
 
 
 func next_stage():
-	stage = StageClickAll.new(self)
+	#stage = StageClickAll.new(self)
+	stage = StageClickAll7x15.new(self)
 
 
 func _process(delta):
