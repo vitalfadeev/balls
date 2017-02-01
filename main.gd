@@ -119,6 +119,9 @@ func fill_area(w, h):
 	var shape = RectangleShape2D.new()
 	shape.set_extents(Vector2(int(ball_size/2)-1, int(ball_size/2)))
 	
+	seed(OS.get_ticks_msec() + OS.get_system_time_secs())
+	randomize()
+	
 	for y in range(h):
 		for x in range(w):
 			var ball = Ball.instance()
@@ -134,7 +137,7 @@ func fill_area(w, h):
 			ball.add_shape(shape)
 		
 			# position
-			ball.set_pos(Vector2(ball_size * x, ball_size * y) + shift)
+			ball.set_pos(Vector2(ball_size * x , ball_size * y) + shift)
 			
 			area.append(ball)
 			add_child(ball)
@@ -343,3 +346,8 @@ func _on_stage10x20_pressed():
 	get_node("Timer").stop()
 	remove_all()
 	stage = StageClickAll.new(self)
+
+
+func _on_saythanks_meta_clicked( meta ):
+	OS.shell_open("http://www.donationalerts.ru/r/vitalfadeev")
+	pass # replace with function body

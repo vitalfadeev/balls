@@ -133,7 +133,7 @@ align = 0
 [node name="Timer" type="Timer" parent="."]
 
 process_mode = 1
-wait_time = 1.0
+wait_time = 0.7
 one_shot = true
 autostart = false
 
@@ -197,6 +197,20 @@ shortcut = null
 textures/normal = ExtResource( 13 )
 textures/hover = ExtResource( 14 )
 
+[node name="say-thanks" type="RichTextLabel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 918.0
+margin/top = 8.0
+margin/right = 993.0
+margin/bottom = 25.0
+bbcode/enabled = true
+bbcode/bbcode = "[url=http://www.donationalerts.ru/r/vitalfadeev]say thanks[/url]"
+visible_characters = -1
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 [connection signal="pressed" from="Container/stage-3x3" to="." method="_on_stage3x3_pressed"]
@@ -204,5 +218,7 @@ textures/hover = ExtResource( 14 )
 [connection signal="pressed" from="Container/stage-7x15" to="." method="_on_stage7x15_pressed"]
 
 [connection signal="pressed" from="Container/stage-10x20" to="." method="_on_stage10x20_pressed"]
+
+[connection signal="meta_clicked" from="say-thanks" to="." method="_on_saythanks_meta_clicked"]
 
 
